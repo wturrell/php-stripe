@@ -378,6 +378,51 @@ class Stripe {
 		
 		return $this->_send_request( 'invoiceitems?'.$vars );
 	}
+    
+	/**
+	 * Get the details of an event.
+	 * 
+	 * @param  string        The identifier of the event to be retrieved.
+	 */    
+    public function events_retrieve($event) {
+        return $this->_send_request('events/' . $event);
+    }
+    
+	/**
+	 * Get events, going back (at least) up to 30 days.
+	 * 
+	 * @param  string        A string containing a specific event name, or group of events using * as a wildcard. The results will be filtered as per these rules.
+	 * @param  string        A filter on the list based on the events created date. The value can be a string with an exact UTC timestamp, or it can be a dictionary with the following options:
+     *                          gt (optional)
+     *                              Return values should have been created after this timestamp.
+     *                          gte (optional)
+     *                              Return values should have been created after or equal to this timestamp.
+     *                          lt (optional)
+     *                              Return values should have been created before this timestamp. 
+     *                          lte (optional)
+     *                              Return values should have been created before or equal to this timestamp.
+	 * @param  int           A limit on the number of events to be returned, default 10
+	 * @param  int           Offset to start the list from, default 0
+ 
+	 */    
+    public function events_list($type = FALSE, $created = FALSE, $count = FALSE, $offset = FALSE) {
+        $params = array();
+        if ($type) {
+            $params['type'] = $type;
+        }
+        if ($created) {
+            $params['created'] = $created;
+        }
+        if ($count) {
+            $params['count'] = $count;
+        }
+        if ($offset) {
+            $params['offset'] = $offset;
+        }
+		$vars = http_build_query($params, NULL, '&');
+		return $this->_send_request( 'events?'.$vars );        
+
+    }
 	
 	/**
 	 * Private utility function that prepare and send the request to the API servers
