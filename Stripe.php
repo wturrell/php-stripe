@@ -32,7 +32,17 @@ class Stripe {
 		// Store the config values
 		$this->_conf = $params;
 	}
-	
+
+	/**
+	 * Access config settings (normally private)
+     * e.g. when generating a form or call to checkout.js
+     *
+     * @param   string      Key e.g. stripe_key_test_public 
+     */
+    public function get_config($key) {
+        return $this->_conf[$key];
+    }
+
 	/**
 	 * Create and apply a charge to an existent user based on it's customer_id
 	 * 
